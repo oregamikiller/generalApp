@@ -7,6 +7,7 @@ var {
         ListView,
         TouchableHighlight,
         StyleSheet,
+        AsyncStorage,
         RecyclerViewBackedScrollView,
         BackAndroid,
         Text,

@@ -7,6 +7,7 @@ var {
         ListView,
         TouchableHighlight,
         StyleSheet,
+        AsyncStorage,
         RecyclerViewBackedScrollView,
         Text,
         View,
@@ -178,9 +179,9 @@ var MainList = React.createClass({
                         title='我的'>
                         <View style={{padding: 30}}>
                             <Text>
-                                用户注册登录后自定义功能开发中,有对本应用的意见和建议可以联系madaow@163.com
+                             用户注册登录后自定义功能开发中,有对本应用的意见和建议可以联系madaow@163.com
                             </Text>
-                        </View>
+                            </View>
                     </TabBar.Item>
                 </TabBar>
             </View>
@@ -190,7 +191,7 @@ var MainList = React.createClass({
     _renderRow: function (rowData:string, sectionID:number, rowID:number) {
         var rowHash = Math.abs(hashCode(rowData));
         if (rowData.pic_url) {
-            rowData.desc = '来源: ' + rowData.source;
+            //rowData.desc = '来源: ' + rowData.source;
             rowData.picUrl = rowData.pic_url;
         }
         if (rowData.picUrl === null) {
@@ -234,7 +235,13 @@ var MainList = React.createClass({
         }
     },
 
-    pressRow: function (rowID:number) {
+    pressRow: async function (rowID:number) {
+        try {
+            await AsyncStorage.setItem("myVisitedList", JSON.stringify([].concat(dataList[currentIndex][rowID])));
+            console.log('set value:', [].concat(dataList[currentIndex][rowID]));
+        } catch (error) {
+            console.log('AsyncStorage error: ' + error.message);
+        }
         switch(currentIndex){
             case 0: this.props.navigator.push({
                         name: 'detail',
